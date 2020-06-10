@@ -1,4 +1,5 @@
 <template>
+   
     <div class="right">
       <div class="searchBar">
         <b-form-input
@@ -40,7 +41,7 @@
 
           <tr>
             <td>
-              <b-icon icon="folder" class="dlIcons"></b-icon>Photos voyage
+              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
             </td>
             <td>5 GB</td>
             <td>10%</td>
@@ -48,7 +49,7 @@
 
           <tr>
             <td>
-              <b-icon icon="camera-video" class="dlIcons"></b-icon>vlog.mp4
+              <b-icon icon="camera-video-fill" class="dlIcons"></b-icon>vlog.mp4
             </td>
             <td>100 GB</td>
             <td>98%</td>
@@ -56,7 +57,7 @@
 
           <tr>
             <td>
-              <b-icon icon="folder" class="dlIcons"></b-icon>Assets
+              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Assets
             </td>
             <td>9 GB</td>
             <td>39%</td>
@@ -64,7 +65,7 @@
 
           <tr>
             <td>
-              <b-icon icon="folder" class="dlIcons"></b-icon>Photos voyages
+              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyages
             </td>
             <td>10 GB</td>
             <td>Done</td>
@@ -80,7 +81,7 @@
 
           <tr>
             <td>
-              <b-icon icon="folder" class="dlIcons"></b-icon>Photos voyage
+              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
             </td>
             <td>5 GB</td>
             <td>10%</td>
@@ -88,7 +89,7 @@
 
           <tr>
             <td>
-              <b-icon icon="camera-video" class="dlIcons"></b-icon>vlog.mp4
+              <b-icon icon="camera-video-fill" class="dlIcons"></b-icon>vlog.mp4
             </td>
             <td>100 GB</td>
             <td>98%</td>
@@ -104,7 +105,7 @@
 
           <tr>
             <td>
-              <b-icon icon="folder" class="dlIcons"></b-icon>Photos voyage
+              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
             </td>
             <td>5 GB</td>
             <td>10%</td>
@@ -120,7 +121,7 @@
 
           <tr>
             <td>
-              <b-icon icon="folder" class="dlIcons"></b-icon>Photos voyage
+              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
             </td>
             <td>5 GB</td>
             <td>10%</td>
@@ -128,7 +129,7 @@
 
           <tr>
             <td>
-              <b-icon icon="camera-video" class="dlIcons"></b-icon>vlog.mp4
+              <b-icon icon="camera-video-fill" class="dlIcons"></b-icon>vlog.mp4
             </td>
             <td>100 GB</td>
             <td>98%</td>
@@ -144,7 +145,7 @@
 
           <tr>
             <td>
-              <b-icon icon="folder" class="dlIcons"></b-icon>Photos voyage
+              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
             </td>
             <td>5 GB</td>
             <td>10%</td>
@@ -160,7 +161,7 @@
 
           <tr>
             <td>
-              <b-icon icon="folder" class="dlIcons"></b-icon>Photos voyage
+              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
             </td>
             <td>5 GB</td>
             <td>10%</td>
@@ -168,7 +169,7 @@
 
           <tr>
             <td>
-              <b-icon icon="camera-video" class="dlIcons"></b-icon>vlog.mp4
+              <b-icon icon="camera-video-fill" class="dlIcons"></b-icon>vlog.mp4
             </td>
             <td>100 GB</td>
             <td>98%</td>
@@ -184,7 +185,7 @@
 
           <tr>
             <td>
-              <b-icon icon="folder" class="dlIcons"></b-icon>Photos voyage
+              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
             </td>
             <td>5 GB</td>
             <td>10%</td>
@@ -192,7 +193,7 @@
 
           <tr>
             <td>
-              <b-icon icon="camera-video" class="dlIcons"></b-icon>vlog.mp4
+              <b-icon icon="camera-video-fill" class="dlIcons"></b-icon>vlog.mp4
             </td>
             <td>100 GB</td>
             <td>98%</td>
@@ -200,7 +201,7 @@
         </table>
       </div>
       <div class="progressDl">
-        <b-progress class="bg-dark" variant="info" height="50px" value="30" max="100" show-progress></b-progress>
+        <b-progress class="bg-dark p-g" variant="info" height="60px" value="30" max="100" show-progress ></b-progress>
       </div>
     </div>
 </template>
@@ -212,14 +213,17 @@
 <style scoped>
     @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap");
 
-    html, body {
-    height: 740px;
+    
+    .right {
+    margin-left: 30%;
     width: 100%;
-    margin: 0;
-    padding: 0;
+    height: fit-content;
+    padding-bottom: 60px;
+    background-color: #1E1E1E;
+    scrollbar-width: none;
     font-family: "Montserrat", sans-serif;
-
     }
+
 
     .searchBar {
     width: 100%;
@@ -275,7 +279,7 @@
 
     .curDl td {
     font-weight: 500;
-    font-size: 15px;
+    font-size: 13px;
     }
 
     .dlIcons {
@@ -300,22 +304,18 @@
     color: #fff;
     }
 
-    .right {
-    margin-left: 30%;
-    width: 100%;
-    height: fit-content;
-    background-color: #1E1E1E;
-    scrollbar-width: none;
-
-    }
 
     .progressDl {
     position: fixed;
     bottom: 0;
-    padding: 15px;
     width: 70%;
     background-color: #1E1E1E;
     color: #007F9A!important;
+    opacity: 0.9;
+    }
+
+    .p-g {
+      border-radius: 0;
     }
     
 </style>

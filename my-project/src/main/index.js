@@ -29,11 +29,11 @@ function createWindow () {
      * Login page: h880 w1440
      * Main page: h740 w1240
      */
-    useContentSize: true,
     width: 1240,
-    height: 740
-    
+    height: 765,
+    frame: false
   }),
+
 
   mainWindow.loadURL(winURL)
   mainWindow.setMenu(null)

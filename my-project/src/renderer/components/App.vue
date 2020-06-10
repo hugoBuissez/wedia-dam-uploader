@@ -1,61 +1,89 @@
 
 <template>
 <body>
+  <div class="dragArea"></div>
   <div class="mainCont">
     <div class="left">
       <header>
         <img src="../../../static/favicon.png" alt />
-        <span>Hugo BUISSEZ</span>
+        <h3>Hugo<span>BUISSEZ</span></h3>
       </header>
 
       <div class="navList">
         <ul>
-          <a href="#" id="downloadTab" :class="{ curTab: downloadTab }" @click="fun($event)">
+          <a href="#" id="uploadTab" :class="{ curTab: uploadTab }" @click="fun($event)">
             <li>
-              Transferts en cours
+              <b-icon icon="cloud-upload" class="menuIcons"></b-icon>
+              <span>Transferts en cours</span>
               <b-badge pill variant="secondary" class="ml-2">11</b-badge>
             </li>
           </a>
           <a href="#" id="logsTab" :class="{ curTab: logsTab }" @click="fun($event)">
-            <li>Logs des transferts</li>
+            <li>
+              <b-icon icon="card-checklist" class="menuIcons"></b-icon>
+              <span>Logs des transferts</span>
+            </li>
           </a>
           <a href="#" id="histoTab" :class="{ curTab: histoTab }" @click="fun($event)">
-            <li>Historique des transferts</li>
+            <li>
+              <b-icon icon="clock-history" class="menuIcons"></b-icon>
+              <span>Historique des transferts</span> 
+            </li>
           </a>
           <a href="#" id="accountTab" :class="{ curTab: accountTab }" @click="fun($event)">
-            <li>Compte</li>
+            <li>
+              <b-icon icon="person-lines-fill" class="menuIcons"></b-icon>
+              <span>Compte</span>  
+            </li>
           </a>
           <a href="#" id="settingsTab" :class="{ curTab: settingsTab }" @click="fun($event)">
-            <li>Paramètres</li>
+            <li>
+              <b-icon icon="gear" class="menuIcons"></b-icon>
+              <span>Paramètres</span>  
+            </li>
           </a>
         </ul>
       </div>
       <div class="footerLeft">
-        <a href=""><b-icon icon="info-circle" class="dlIcons"></b-icon>Support</a>
+        <a @click="open('https://www.wedia-group.com/fr/contact-2/')"><b-icon icon="info-circle" class="dlIcons"></b-icon>Support</a>
         <a href=""><b-icon icon="chat-quote" class="dlIcons"></b-icon>Langues</a>
       </div>
     </div>
 
     <account-tab v-if="accountTab"></account-tab>
-    <download-tab v-if="downloadTab"></download-tab>
+    <upload-tab v-if="uploadTab"></upload-tab>
+    <histo-tab v-if="histoTab"></histo-tab>
+    <settings-tab v-if="settingsTab"></settings-tab> 
+    <logs-tab v-if="logsTab"></logs-tab> 
+
   </div>
 </body>
 </template>
 
 <script>
 
-import accountTab from "./tabs/AccountTab";
-import downloadTab from "./tabs/DownloadTab";
+import accountTab from "./tabs/accountTab";
+import uploadTab from "./tabs/uploadTab";
+import histoTab from "./tabs/histoTab";
+import logsTab from "./tabs/logsTab";
+import settingsTab from "./tabs/settingsTab";
 
 export default {
   name: "app",
-  components: { accountTab, downloadTab },
+  components: { 
+    accountTab, 
+    uploadTab, 
+    histoTab, 
+    settingsTab, 
+    logsTab 
+  },
+   
   data() {
     return {
-      curTab: "downloadTab",
-      downloadTab: true,
+      curTab: "histoTab",
+      uploadTab: false,
       accountTab: false,
-      histoTab: false,
+      histoTab: true,
       logsTab: false,
       settingsTab: false
     };
@@ -66,21 +94,41 @@ export default {
       this.$set(this, this.curTab, false);
       this.$set(this, id, true);
       this.curTab = id;
-    }
+    },
+    open: function(url) {
+      require("electron").shell.openExternal(url)
+    } 
   }
 };
 </script>
 
-<style scoped>
+<style >
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap");
+
+
+body::-webkit-scrollbar {
+  display: none;
+}
 
 html,
 body {
   height: 740px;
   width: 100%;
+  font-family: "Montserrat", sans-serif;
+}
+
+.dragArea {
+  width: 100%;
+  height: 20px;
+  background-color: #282828;
+  z-index: -1;
+  -webkit-app-region: drag;
+  position: fixed;
+}
+
+html, body, h3 {
   margin: 0;
   padding: 0;
-  font-family: "Montserrat", sans-serif;
 }
 
 hr {
@@ -92,6 +140,7 @@ hr {
 a,
 a:hover {
   text-decoration: none;
+  cursor: pointer;
 }
 
 .searchBar {
@@ -133,11 +182,15 @@ header {
   align-items: center;
 }
 
-header span {
+header h3 {
   font-size: 25px;
   color: #f1f1f2;
-  font-weight: 600;
+  font-weight: 200;
   margin-left: 7px;
+}
+
+header h3 span {
+  font-weight: 600;
 }
 
 .navList {
@@ -172,6 +225,17 @@ header span {
 
 .navList ul a:not(:last-child) {
   margin-bottom: 10px;
+}
+
+.navList ul li {
+  display: flex;
+  align-items: center;
+}
+
+.menuIcons {
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
 }
 
 .curTab {

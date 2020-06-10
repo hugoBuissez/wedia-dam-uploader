@@ -1,6 +1,5 @@
 <template>
   <div class="right">
-
     <we-cursor-provider path="dam/asset">
       <template #default="cursor">
         <div>
@@ -8,6 +7,7 @@
         </div>
       </template>
     </we-cursor-provider>
+
   </div>
 </template>
 
@@ -18,24 +18,11 @@ import damList from "../dam/DamList"
 export default {
   name: "account-tab",
   components: { damList },
-  data() {
-    return {};
-  },
-  methods: {}
 };
 </script>
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap");
-
-    body {
-    height: 740px;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: "Montserrat", sans-serif;
-}
-
   
     .searchBar {
     width: 100%;
