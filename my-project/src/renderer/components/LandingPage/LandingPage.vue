@@ -2,51 +2,43 @@
 
 <template>
   <div id="wrapper">
-    <b-img id="logo" class="mb-5" src="https://diievents.dii.eu/chief-marketing-officer/wp-content/uploads/sites/8/2016/12/WEDIA-logo-final.jpg"></b-img>
-    <menu-index></menu-index>
-    <main>
-      <div class="left-side">
-        <b-breadcrumb :items="items"></b-breadcrumb>
-        <span class="title">
-          Welcome to your new project!
-        </span>
-        <system-information></system-information>        
-        <div>
-    
-  </div>
-      </div>
+    <b-row>
+      <b-col>
+        <menu-index></menu-index>
+      </b-col>
+      <b-col class="d-flex flex-row-reverse mb-3">
+           <b-button class="ml-1"><b-icon-bell variant="success"></b-icon-bell></b-button>
+           <b-button><b-icon-arrow-right-square></b-icon-arrow-right-square></b-button>
 
-      <div class="right-side">
-        <div class="doc">
-          <div class="title">Getting Started</div>
-          <p>
-            electron-vue comes packed with detailed documentation that covers everything from
-            internal configurations, using the project structure, building your application,
-            and so much more.
-          </p>
-          <button @click="open('https://simulatedgreg.gitbooks.io/electron-vue/content/')">Read the Docs</button><br><br>
-        </div>
-        
-      </div>
-    </main>
+      </b-col>
+    </b-row>
 
     <div>
+      <b-jumbotron header="DAM Uploader" lead="Upload assets of your choices for your DAM">
+        <p>For more information visit website</p>
+        <b-progress :value="val" :max="max" show-progress animated></b-progress>
+        <b-button class="mt-3" @click="progressBar">Click me</b-button>
+      </b-jumbotron>
     </div>
+
+   
   </div>
     
 </template>
 
 <script>
-  import MenuIndex from './SideMenu'
+  import MenuIndex from './LandingPage/SideMenu'
   import SystemInformation from './LandingPage/SystemInformation'
-  import DatePicker from './DatePicker'
-  import DragDrop from './DragDrop'
+  import DatePicker from './LandingPage/DatePicker'
+  import DragDrop from './LandingPage/DragAndDrop'
 
   export default {
     name: 'landing-page',
     components: { SystemInformation, MenuIndex, DatePicker, DragDrop },
     data () {
       return {
+        val: 0,
+        max: 100,
         items: [
           {
             text: 'Index',
@@ -80,13 +72,19 @@
           this.show = true
           return `${files.length} files selected`
         }
+      },
+      randomValue() {
+        this.val = Math.random() * this.max;
+      },
+      progressBar() {
+           this.val += 40;      
       }
     }
 
   }
 </script>
 
-<style>
+<style scoped>
   @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
   @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
   
@@ -108,12 +106,6 @@
     height: 100vh;
     padding: 60px 80px;
     width: 100vw;
-  }
-
-  #logo {
-    height: auto;
-    margin-bottom: 20px;
-    width: 420px;
   }
 
   main {

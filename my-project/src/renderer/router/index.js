@@ -14,12 +14,7 @@ export default new Router({
     {
       path: '/',
       // name: 'landing-page',
-      component: require('@/components/LandingPage').default
-    },
-    {
-      path: '/upload',
-      // name: 'landing-page',
-      component: require('@/components/DragDrop').default
+      component: require('@/components/App').default
     },
     {
       path: '*',

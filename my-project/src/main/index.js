@@ -24,12 +24,20 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    /**
+     * Landing page: h900 w1000
+     * Login page: h880 w1440
+     * Main page: h740 w1240
+     */
     useContentSize: true,
-    width: 1000
+    width: 1240,
+    height: 740
+    
   }),
 
   mainWindow.loadURL(winURL)
+  mainWindow.setMenu(null)
+  mainWindow.setResizable(false)
 
   mainWindow.on('closed', () => {
     mainWindow = null
