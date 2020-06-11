@@ -37,7 +37,7 @@ function createWindow () {
 
   mainWindow.loadURL(winURL)
   mainWindow.setMenu(null)
-  mainWindow.setResizable(false)
+  mainWindow.setResizable(true)
 
   mainWindow.on('closed', () => {
     mainWindow = null

@@ -1,5 +1,6 @@
 
 <template>
+<html>
 <body>
   <div class="dragArea"></div>
   <div class="mainCont">
@@ -45,7 +46,7 @@
         </ul>
       </div>
       <div class="footerLeft">
-        <a @click="open('https://www.wedia-group.com/fr/contact-2/')"><b-icon icon="info-circle" class="dlIcons"></b-icon>Support</a>
+        <a href="" @click="open('https://www.wedia-group.com/fr/contact-2/')"><b-icon icon="info-circle" class="dlIcons"></b-icon>Support</a>
         <a href=""><b-icon icon="chat-quote" class="dlIcons"></b-icon>Langues</a>
       </div>
     </div>
@@ -58,6 +59,7 @@
 
   </div>
 </body>
+</html>
 </template>
 
 <script>
@@ -80,10 +82,10 @@ export default {
    
   data() {
     return {
-      curTab: "histoTab",
-      uploadTab: false,
+      curTab: "uploadTab",
+      uploadTab: true,
       accountTab: false,
-      histoTab: true,
+      histoTab: false,
       logsTab: false,
       settingsTab: false
     };
@@ -110,9 +112,13 @@ body::-webkit-scrollbar {
   display: none;
 }
 
-html,
+html {
+  height: 100%;
+}
+
+
 body {
-  height: 740px;
+  min-height: 100%;
   width: 100%;
   font-family: "Montserrat", sans-serif;
 }
@@ -266,4 +272,15 @@ header h3 span {
 .dlIcons {
     margin-right: 5px;
 }
+
+    .right {
+    margin-left: 30%;
+    width: 100%;
+    min-height: 100vh;
+    height: fit-content;   
+    background-color: #1E1E1E;
+    scrollbar-width: none;
+    font-family: "Montserrat", sans-serif;
+    }
+
 </style>

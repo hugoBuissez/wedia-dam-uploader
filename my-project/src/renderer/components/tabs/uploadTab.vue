@@ -1,6 +1,11 @@
 <template>
+
+  <div class="right">
+
+    <header>
+      <h3>Mes transferts</h3>
+    </header>
    
-    <div class="right">
       <div class="searchBar">
         <b-form-input
           id="input-1"
@@ -200,34 +205,41 @@
           </tr>
         </table>
       </div>
-      <div class="progressDl">
-        <b-progress class="bg-dark p-g" variant="info" height="60px" value="30" max="100" show-progress ></b-progress>
-      </div>
+       <b-progress :max="max" class="progressDl">
+          <b-progress-bar class="p-g" :value="value" :label="`${((value / max) * 100).toFixed(2)} %`"></b-progress-bar>
+        </b-progress>
     </div>
 </template>
 
 <script>
+  export default {
+    data() {
+      return {
+        value: 43,
+        max: 100,
+      }
+    },  
+  }
 
 </script>
 
 <style scoped>
     @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap");
 
+    header {
+      padding-left: 30px;
+      padding-bottom: 20px;
+    }
     
     .right {
-    margin-left: 30%;
-    width: 100%;
-    height: fit-content;
     padding-bottom: 60px;
-    background-color: #1E1E1E;
-    scrollbar-width: none;
-    font-family: "Montserrat", sans-serif;
     }
 
 
     .searchBar {
     width: 100%;
-    padding: 30px 30px 0 30px;
+    padding: 0 30px;
+
     }
 
     .inputForm {
@@ -245,7 +257,6 @@
 
     .curDl {
     width: 100%;
-    margin-top: 50px;
     padding: 30px 30px;
     color: #fff;
     }
@@ -309,13 +320,13 @@
     position: fixed;
     bottom: 0;
     width: 70%;
-    background-color: #1E1E1E;
-    color: #007F9A!important;
+    background:transparent!important;
     opacity: 0.9;
     }
 
     .p-g {
-      border-radius: 0;
+    background-color: #007F9A!important;
+
     }
     
 </style>

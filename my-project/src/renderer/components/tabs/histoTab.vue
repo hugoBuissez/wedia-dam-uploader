@@ -45,9 +45,81 @@
             <td>
               <b-icon icon="file-earmark" class="dlIcons"></b-icon>Filename.jpg
             </td>
-            <td>06/10/20 12:23</td>
+            <td>06/09/20 12:23</td>
             <td>Assets</td>
             <td class="succ">Success</td>
+          </tr>
+
+          <tr>
+            <td>
+              <b-icon icon="folder-fill" class="dlIcons"></b-icon>logo_folder
+            </td>
+            <td>01/08/20 15:23</td>
+            <td>Brandcenter</td>
+            <td class="succ">Success</td>
+          </tr>
+
+          <tr>
+            <td>
+              <b-icon icon="file-earmark" class="dlIcons"></b-icon>Filename.jpg
+            </td>
+            <td>06/07/20 12:23</td>
+            <td>Assets</td>
+            <td class="succ">Success</td>
+          </tr>
+
+          <tr>
+            <td>
+              <b-icon icon="folder-fill" class="dlIcons"></b-icon>logo_folder
+            </td>
+            <td>01/07/20 15:23</td>
+            <td>Brandcenter</td>
+            <td style="color: #f56d73;">Error</td>
+          </tr>
+
+          <tr>
+            <td>
+              <b-icon icon="file-earmark" class="dlIcons"></b-icon>Filename.jpg
+            </td>
+            <td>02/05/20 12:23</td>
+            <td>Assets</td>
+            <td class="succ">Success</td>
+          </tr>
+
+          <tr>
+            <td>
+              <b-icon icon="folder-fill" class="dlIcons"></b-icon>logo_folder
+            </td>
+            <td>04/02/20 15:23</td>
+            <td>Brandcenter</td>
+            <td class="succ">Success</td>
+          </tr>
+
+          <tr>
+            <td>
+              <b-icon icon="file-earmark" class="dlIcons"></b-icon>Filename.jpg
+            </td>
+            <td>01/02/20 12:23</td>
+            <td>Assets</td>
+            <td style="color: #f56d73;">Error</td>
+          </tr>
+
+          <tr>
+            <td>
+              <b-icon icon="folder-fill" class="dlIcons"></b-icon>logo_folder
+            </td>
+            <td>01/02/20 15:23</td>
+            <td>Brandcenter</td>
+            <td class="succ">Success</td>
+          </tr>
+
+          <tr>
+            <td>
+              <b-icon icon="file-earmark" class="dlIcons"></b-icon>Filename.jpg
+            </td>
+            <td>01/02/20 12:23</td>
+            <td>Assets</td>
+            <td style="color: #f56d73;">Error</td>
           </tr>
                   
         </table>
@@ -64,14 +136,15 @@
     .right {
     margin-left: 30%;
     width: 100%;
-    height: 765px;
+    min-height: 100vh;
+    height: fit-content;    
     background-color: #1E1E1E;
     color: white;
     }
 
     .curDl {
     width: 100%;
-    margin-top: 50px;
+    margin-top: 30px;
     padding: 30px 30px;
     color: #fff;
     }
