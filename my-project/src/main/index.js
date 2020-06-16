@@ -30,7 +30,7 @@ function createWindow () {
      * Main page: h740 w1240
      */
     width: 1240,
-    height: 765,
+    height: 790,
     frame: false
   }),
 

@@ -11,15 +11,15 @@
 
     </div>
 
-    <!--
-    <we-cursor-provider path="dam/asset" $status="loaded">
+    
+    <!-- <we-cursor-provider path="dam/asset" $status="loaded">
       <template #default="cursor">
         <div>
           <dam-list :cursor="cursor"/>
         </div>
       </template>
-    </we-cursor-provider> 
-    -->
+    </we-cursor-provider> -->
+    
 
   </div>
 </template>

@@ -5,11 +5,11 @@
     <header>
       <h3>Mes transferts</h3>
     </header>
-   
+ 
       <div class="searchBar">
-        <b-form-input
+        <b-form-input 
           id="input-1"
-          type="email"
+          type="search"
           required
           placeholder="Rechercher"
           class="inputForm"
@@ -24,185 +24,16 @@
           <th>Status</th>
           </tr>
 
-          <we-cursor-provider path="dam/asset" target-status="loaded">
-              <template #default="{ dataEntities }">
-                  <tr v-for="entity in dataEntities" :key="entity.id">
-                    <td>
-                      <b-icon icon="file-earmark" class="dlIcons"></b-icon>{{ entity.name }}
-                    </td>
-                    <td>6 GB</td>
-                    <td>39%</td>
-                  </tr>
-              </template>
-         </we-cursor-provider>
-
-          <tr>
+          <tr v-for="file in filesList" :key="file.name">
             <td>
-              <b-icon icon="file-earmark" class="dlIcons"></b-icon>Filename.jpg
+              <b-icon icon="file-earmark" class="dlIcons"></b-icon>{{ file.name }}
             </td>
-            <td>6 GB</td>
-            <td>39%</td>
+            <td>{{ file.size }}</td>
+            <td>{{ file.progress }} %</td>
           </tr>
 
-          <tr>
-            <td>
-              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
-            </td>
-            <td>5 GB</td>
-            <td>10%</td>
-          </tr>
+          
 
-          <tr>
-            <td>
-              <b-icon icon="camera-video-fill" class="dlIcons"></b-icon>vlog.mp4
-            </td>
-            <td>100 GB</td>
-            <td>98%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Assets
-            </td>
-            <td>9 GB</td>
-            <td>39%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyages
-            </td>
-            <td>10 GB</td>
-            <td>Done</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="file-earmark" class="dlIcons"></b-icon>Filename.jpg
-            </td>
-            <td>6 GB</td>
-            <td>39%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
-            </td>
-            <td>5 GB</td>
-            <td>10%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="camera-video-fill" class="dlIcons"></b-icon>vlog.mp4
-            </td>
-            <td>100 GB</td>
-            <td>98%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="file-earmark" class="dlIcons"></b-icon>Filename.jpg
-            </td>
-            <td>6 GB</td>
-            <td>39%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
-            </td>
-            <td>5 GB</td>
-            <td>10%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="file-earmark" class="dlIcons"></b-icon>Filename.jpg
-            </td>
-            <td>6 GB</td>
-            <td>39%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
-            </td>
-            <td>5 GB</td>
-            <td>10%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="camera-video-fill" class="dlIcons"></b-icon>vlog.mp4
-            </td>
-            <td>100 GB</td>
-            <td>98%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="file-earmark" class="dlIcons"></b-icon>Filename.jpg
-            </td>
-            <td>6 GB</td>
-            <td>39%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
-            </td>
-            <td>5 GB</td>
-            <td>10%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="file-earmark" class="dlIcons"></b-icon>Filename.jpg
-            </td>
-            <td>6 GB</td>
-            <td>39%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
-            </td>
-            <td>5 GB</td>
-            <td>10%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="camera-video-fill" class="dlIcons"></b-icon>vlog.mp4
-            </td>
-            <td>100 GB</td>
-            <td>98%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="file-earmark" class="dlIcons"></b-icon>Filename.jpg
-            </td>
-            <td>6 GB</td>
-            <td>39%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="folder-fill" class="dlIcons"></b-icon>Photos voyage
-            </td>
-            <td>5 GB</td>
-            <td>10%</td>
-          </tr>
-
-          <tr>
-            <td>
-              <b-icon icon="camera-video-fill" class="dlIcons"></b-icon>vlog.mp4
-            </td>
-            <td>100 GB</td>
-            <td>98%</td>
-          </tr>
         </table>
       </div>
        <b-progress :max="max" class="progressDl">
@@ -212,13 +43,35 @@
 </template>
 
 <script>
+
+
   export default {
+    props: {
+      filesList: Array,
+    },
+
     data() {
       return {
-        value: 43,
+        value: 0,
         max: 100,
       }
     },  
+
+    watch: {
+     
+    },
+
+    created() {
+      
+     // this.interval = setInterval(() => this.updatePercent(), 500)
+    },
+
+    methods: {
+      
+      updateValue: function(percent) {
+        this.$emit('vue-circle', percent)
+      }
+    }
   }
 
 </script>
@@ -229,6 +82,10 @@
     header {
       padding-left: 30px;
       padding-bottom: 20px;
+    }
+
+    span {
+      color: blanchedalmond;
     }
     
     .right {
