@@ -1,14 +1,15 @@
-# my-project
+# **wedia-electron-uploader wiki**
 
-> An electron-vue project
+> Little desktop uploader for Wedia DAM. 
 
-#### Build Setup
+**Write de following command in order to use it**
 
-``` bash
-# install dependencies
-npm install
+`git clone https://github.com/hugoBuissez/wedia-electron-uploader.git`
 
-# serve with hot reload at localhost:9080
-npm run dev
+`cd wedia-electron-uploader`
+
+`npm install`
+
+`npm run dev`
 
 
