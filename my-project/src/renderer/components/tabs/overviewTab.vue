@@ -44,7 +44,6 @@
     <!-- :server="{ process, load }" -->
     
     <div class="dragDrop">
-
         <file-pond
         id="file_pond"
         name="test"
@@ -59,9 +58,6 @@
         @processfileprogress="handleProcessFileProgress"
         @removefile="handleRemoveFile"/>
     </div>
-
-    
-
   </div>
 </template>
 
