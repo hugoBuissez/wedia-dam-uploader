@@ -8,7 +8,7 @@
  
       <div class="searchBar">
         <b-form-input 
-          id="input-1"
+          v-model="searchAsset"
           type="search"
           required
           placeholder="Rechercher"
@@ -24,12 +24,12 @@
           <th>Status</th>
           </tr>
 
-          <tr v-for="file in filesList" :key="file.name">
+          <tr v-for="file in filteredList" :key="file.name">
             <td>
               <b-icon icon="file-earmark" class="dlIcons"></b-icon>{{ file.name }}
             </td>
-            <td>{{ file.size }}</td>
-            <td>{{ file.progress }} %</td>
+            <td>{{ file.size }} {{ file.unit }}</td>
+            <td :class="{done: file.progress == 100}">{{ file.progress }} %</td>
           </tr>
 
           
@@ -37,41 +37,37 @@
         </table>
       </div>
        <b-progress :max="max" class="progressDl">
-          <b-progress-bar class="p-g" :value="value" :label="`${((value / max) * 100).toFixed(2)} %`"></b-progress-bar>
+          <b-progress-bar class="p-g" :value="percent" :label="`${((Math.floor(percent) / max) * 100).toFixed(2)} %`"></b-progress-bar>
         </b-progress>
     </div>
 </template>
 
 <script>
 
-
   export default {
     props: {
       filesList: Array,
+      percent: Number,
     },
 
     data() {
       return {
         value: 0,
         max: 100,
+        searchAsset: '',
       }
     },  
 
-    watch: {
-     
-    },
 
-    created() {
-      
-     // this.interval = setInterval(() => this.updatePercent(), 500)
-    },
-
-    methods: {
-      
-      updateValue: function(percent) {
-        this.$emit('vue-circle', percent)
+    computed: {
+      // Search tool
+      filteredList() {
+        return this.filesList.filter(file => {
+          return file.name.toLowerCase().includes(this.searchAsset.toLowerCase())
+        })
       }
-    }
+
+    },
   }
 
 </script>
@@ -84,9 +80,10 @@
       padding-bottom: 20px;
     }
 
-    span {
-      color: blanchedalmond;
+    .done {
+      color: #00A5C8;
     }
+
     
     .right {
     padding-bottom: 60px;
@@ -94,22 +91,25 @@
 
 
     .searchBar {
-    width: 100%;
-    padding: 0 30px;
-
+      width: 100%;
+      padding: 0 30px;
+    
     }
 
     .inputForm {
-    height: 40px;
-    width: 100%;
-    color: #454545;
-    background-color: #3C3C3B;
-    font-family: "Montserrat", sans-serif;
-    font-size: 14px;
-    font-weight: 200;
-    letter-spacing: 0;
-    line-height: 18px;
-    border: none;
+      height: 40px;
+      width: 100%;
+      color: #ffffff;
+      background-color: #3C3C3B;
+      font-family: "Montserrat", sans-serif;
+      font-size: 14px;
+      font-weight: 200;
+      letter-spacing: 0;
+      line-height: 18px;
+      border: none;
+      outline-style: none;
+      box-shadow: none;
+      border-color: transparent;
     }
 
     .curDl {
@@ -133,7 +133,7 @@
     text-align: left;
     color: #757d8b;
     font-weight: bolder;
-        scrollbar-width: none;
+    scrollbar-width: none;
 
     }
 

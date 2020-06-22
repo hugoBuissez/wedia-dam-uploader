@@ -6,7 +6,7 @@
     <div class="mainCont">
       <div class="left">
         <header>
-          <img src="../../../static/favicon.png" alt />
+          <img class="userLogo" src="../../../static/favicon.png" alt />
           <h3>
             Hugo
             <span>BUISSEZ</span>
@@ -16,39 +16,43 @@
         <!-- TAB LIST -->
         <div class="navList">
           <ul>
-            <a href="#" id="overviewTab" :class="{ curTab: overviewTab }" @click="fun($event)">
+            <a
+              href="#"
+              id="overviewTab"
+              :class="{ curTab: overviewTab }"
+              @click="changeTab($event)"
+            >
               <li>
                 <b-icon icon="search" class="menuIcons"></b-icon>
                 <span>Overview</span>
-                <b-badge pill variant="secondary" class="ml-2">11</b-badge>
+                <b-badge v-if="nbFile > 0" pill variant="secondary" class="ml-2">{{ nbFile }}</b-badge>
               </li>
             </a>
-            <a href="#" id="uploadTab" :class="{ curTab: uploadTab }" @click="fun($event)">
+            <a href="#" id="uploadTab" :class="{ curTab: uploadTab }" @click="changeTab($event)">
               <li>
                 <b-icon icon="cloud-upload" class="menuIcons"></b-icon>
                 <span>Transferts en cours</span>
-                <b-badge pill variant="secondary" class="ml-2">11</b-badge>
+                <b-badge v-if="nbFile > 0" pill variant="secondary" class="ml-2">{{ nbFile }}</b-badge>
               </li>
             </a>
-            <a href="#" id="logsTab" :class="{ curTab: logsTab }" @click="fun($event)">
-              <li>
-                <b-icon icon="card-checklist" class="menuIcons"></b-icon>
-                <span>Logs des transferts</span>
-              </li>
-            </a>
-            <a href="#" id="histoTab" :class="{ curTab: histoTab }" @click="fun($event)">
+            <a href="#" id="histoTab" :class="{ curTab: histoTab }" @click="changeTab($event)">
               <li>
                 <b-icon icon="clock-history" class="menuIcons"></b-icon>
                 <span>Historique des transferts</span>
               </li>
             </a>
-            <a href="#" id="accountTab" :class="{ curTab: accountTab }" @click="fun($event)">
+            <a href="#" id="accountTab" :class="{ curTab: accountTab }" @click="changeTab($event)">
               <li>
                 <b-icon icon="person-lines-fill" class="menuIcons"></b-icon>
                 <span>Compte</span>
               </li>
             </a>
-            <a href="#" id="settingsTab" :class="{ curTab: settingsTab }" @click="fun($event)">
+            <a
+              href="#"
+              id="settingsTab"
+              :class="{ curTab: settingsTab }"
+              @click="changeTab($event)"
+            >
               <li>
                 <b-icon icon="gear" class="menuIcons"></b-icon>
                 <span>Paramètres</span>
@@ -58,7 +62,8 @@
         </div>
 
         <!-- CIRCLE PROGRESS BAR -->
-        <div class="totalCircleBar">
+
+        <div class="totalCircleBar" v-if="pgdata > 0">
           <vue-circle
             ref="circle_id"
             :progress="0"
@@ -66,13 +71,14 @@
             :reverse="false"
             :fill="fill"
             empty-fill="#3C3C3B"
-            :animation-start-value="0.0"
             :start-angle="0"
             insert-mode="append"
             :thickness="5"
             :show-percent="true"
+            :animation="animation"
             @vue-circle-progress="progress"
-            @vue-circle-end="progress_end">
+            @vue-circle-end="progress_end"
+          >
             <p v-show="show">Done !</p>
           </vue-circle>
         </div>
@@ -81,18 +87,17 @@
       <!-- DIFFERENTS TABS -->
       <!-- RIGHT PART -->
       <account-tab v-if="accountTab"></account-tab>
-      <upload-tab v-if="uploadTab" :filesList="filesList"></upload-tab>
+      <upload-tab v-if="uploadTab" :filesList="filesList" :percent="pgdata"></upload-tab>
       <histo-tab v-if="histoTab"></histo-tab>
       <settings-tab v-if="settingsTab"></settings-tab>
-      <logs-tab v-if="logsTab"></logs-tab>
       <keep-alive>
-      <overview-tab
-        v-if="overviewTab"
-        @upload-progress-file="uploadProgressFile"
-        @upload-progress-total="uploadProgressTotal"
-        @files-list="updateFilesList"
-        :filesListNames="filesListNames"
-      ></overview-tab>
+        <overview-tab
+          v-if="overviewTab"
+          @upload-progress-file="uploadProgressFile"
+          @upload-progress-total="uploadProgressTotal"
+          @files-list="updateFilesList"
+          @reset-progress-bar="resetProgressBar"
+        ></overview-tab>
       </keep-alive>
     </div>
   </body>
@@ -103,7 +108,6 @@
 import accountTab from "./tabs/accountTab";
 import uploadTab from "./tabs/uploadTab";
 import histoTab from "./tabs/histoTab";
-import logsTab from "./tabs/logsTab";
 import settingsTab from "./tabs/settingsTab";
 import overviewTab from "./tabs/overviewTab";
 import VueCircle from "vue2-circle-progress";
@@ -115,52 +119,63 @@ export default {
     uploadTab,
     histoTab,
     settingsTab,
-    logsTab,
     overviewTab,
     VueCircle
   },
 
   data() {
     return {
-      curTab: "uploadTab",
-      uploadTab: true,
+      curTab: "overviewTab",
+      uploadTab: false,
       accountTab: false,
       histoTab: false,
-      logsTab: false,
       settingsTab: false,
-      overviewTab: false,
+      overviewTab: true,
+
       show: false,
       completed: false,
       fill: { color: "#007F9A" },
       pgdata: 0,
+      nbFile: 0,
+      animation: { duration: 700, easing: "circleProgressEasing" },
 
-      filesList: [],
-      filesListNames: [],
-      logsList: [],
-      histoList: []
+      filesList: []
     };
   },
 
   methods: {
-    fun: function(event) {
+    progressBar: function() {
+      return this.pgdata > 0;
+    },
+
+    changeTab: function(event) {
       let id = event.currentTarget.id;
       this.$set(this, this.curTab, false);
       this.$set(this, id, true);
       this.curTab = id;
     },
+
     open: function(url) {
       require("electron").shell.openExternal(url);
     },
+
     progress(event, progress, stepValue) {
       //console.log(stepValue);
     },
+
     progress_end(event) {
       //console.log("Circle progress end");
     },
+
     uploadProgressTotal(value) {
       this.pgdata = value;
+      if (this.pgdata == 100) {
+        this.$refs.circle_id.updateFill({ color: "green" });
+        this.show = true;
+      }
       this.$refs.circle_id.updateProgress(this.pgdata);
     },
+
     uploadProgressFile(id, progress) {
       this.filesList.forEach(function(file) {
         if (file.id === id) {
@@ -168,13 +183,15 @@ export default {
         }
       });
     },
-    updateFilesList(newFilesList) {
+
+    updateFilesList(newFilesList, nbFile) {
       this.filesList = newFilesList;
-    }
-  },
-  watch: {
-    pgdata: function(newVal) {
-      this.pgdata = newVal;
+      this.nbFile = nbFile;
+    },
+
+    resetProgressBar() {
+      this.$refs.circle_id.updateProgress(0);
+      this.pgdata = 0;
     }
   }
 };
@@ -236,6 +253,10 @@ a:hover {
   cursor: pointer;
 }
 
+.userLogo {
+  margin-right: 5px;
+}
+
 .searchBar {
   width: 100%;
   padding: 30px 30px 0 30px;
@@ -279,7 +300,6 @@ header h3 {
   font-size: 25px;
   color: #f1f1f2;
   font-weight: 200;
-  margin-left: 7px;
 }
 
 header h3 span {
@@ -355,7 +375,8 @@ header h3 span {
 }
 
 .filepond--root {
-  max-height: 600px;
+  height: 300px;
+  max-height: 300px;
 }
 
 .filepond--drop-label {

@@ -1,17 +1,13 @@
-
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-
 import App from './App'
 import router from './router'
 import store from './store'
-
 import WediaVue, { getPropsFromBootNode } from 'wedia-vue';
 
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
-
 
 
 Vue.use(WediaVue, {

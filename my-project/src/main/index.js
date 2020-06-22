@@ -31,26 +31,17 @@ function createWindow () {
      */
     width: 1240,
     height: 790,
-    frame: false
+    frame: true
   }),
 
 
   mainWindow.loadURL(winURL)
   mainWindow.setMenu(null)
   mainWindow.setResizable(true)
-
-  mainWindow.on('closed', () => {
-    mainWindow = null
-  })
+  
 }
 
 app.on('ready', createWindow)
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
 
 app.on('activate', () => {
   if (mainWindow === null) {
