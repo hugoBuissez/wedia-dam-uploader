@@ -31,7 +31,6 @@ Vue.config.productionTip = false
 const props = getPropsFromBootNode(document.getElementById('app'));
 
 new Vue({
-  components: { App },
   router,
   store,
   render: (h) => {
@@ -39,7 +38,8 @@ new Vue({
       props,
       scopedSlots: {
         default: (params) => {
-            return h(App)}
+            return h(App)
+          }
       },
     });
   }

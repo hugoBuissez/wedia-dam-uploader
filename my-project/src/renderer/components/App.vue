@@ -63,7 +63,7 @@
 
         <!-- CIRCLE PROGRESS BAR -->
 
-        <div class="totalCircleBar" v-if="pgdata > 0">
+        <div class="totalCircleBar" v-if="show">
           <vue-circle
             ref="circle_id"
             :progress="0"
@@ -79,12 +79,12 @@
             @vue-circle-progress="progress"
             @vue-circle-end="progress_end"
           >
-            <p v-show="show">Done !</p>
+            <b-button class="but" v-if="completed" @click="goHistoTab">Voir</b-button>
           </vue-circle>
         </div>
       </div>
 
-      <!-- DIFFERENTS TABS -->
+      <!-- DIFFERENT TABS -->
       <!-- RIGHT PART -->
       <account-tab v-if="accountTab"></account-tab>
       <upload-tab v-if="uploadTab" :filesList="filesList" :percent="pgdata"></upload-tab>
@@ -155,6 +155,17 @@ export default {
       this.curTab = id;
     },
 
+    goHistoTab: function() {
+      this.overviewTab = false
+      this.curTab = "histoTab";
+      this.histoTab = true;
+
+      this.completed = false;
+      this.show = false;
+
+      this.uploadProgressTotal(0);
+    },
+
     open: function(url) {
       require("electron").shell.openExternal(url);
     },
@@ -171,12 +182,15 @@ export default {
       this.pgdata = value;
       if (this.pgdata == 100) {
         this.$refs.circle_id.updateFill({ color: "green" });
-        this.show = true;
+        this.completed = true;
       }
       this.$refs.circle_id.updateProgress(this.pgdata);
     },
 
     uploadProgressFile(id, progress) {
+      if(!this.show) {
+        this.show = true
+      }
       this.filesList.forEach(function(file) {
         if (file.id === id) {
           file.progress = Math.floor(progress * 100);
@@ -191,7 +205,6 @@ export default {
 
     resetProgressBar() {
       this.$refs.circle_id.updateProgress(0);
-      this.pgdata = 0;
     }
   }
 };
@@ -231,6 +244,26 @@ body {
   z-index: -1;
   -webkit-app-region: drag;
   position: fixed;
+}
+
+.but {
+  height: fit-content;
+  width: fit-content;
+  color: #C4C4C4;
+  font-family: 'Montserrat', sans-serif;
+  border: 1px solid #C4C4C4;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 18px;
+  text-align: center;
+  background-color: transparent;
+}
+
+.but:hover {
+  border-color: #00A5C8;
+  color: #00A5C8;
+  background-color: transparent;
 }
 
 html,

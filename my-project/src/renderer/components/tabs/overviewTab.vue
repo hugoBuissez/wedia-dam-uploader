@@ -8,7 +8,7 @@
     <div class="buttons">
 
     <div class="clear-btn-cont">
-      <b-button @click='processFiles' class="but normal">Upload</b-button>
+      <b-button @click='processFiles' class="but normal" :disabled="uploadDisabled">Upload</b-button>
     </div>
 
     <div class="clear-btn-cont">
@@ -87,6 +87,7 @@ export default {
           percent: 0,
           ended: 0,
           showAlert: false,
+          uploadDisabled: false,
         };
     },
 
@@ -186,8 +187,6 @@ export default {
       handleProcessFile(err, file) {
         try {
 
-         
-
           var today = new Date();
           var dd = String(today.getDate()).padStart(2, '0');
           var mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -227,7 +226,9 @@ export default {
           this.$emit('update-histo-list', this.histoArray)
 
           if(this.ended == this.nbFiles) {
-            this.$refs.pond.removeFiles()
+            this.uploadDisabled = false;
+            this.$refs.pond.removeFiles();
+            this.ended = 0;
           }
         } catch (err) {
         }
@@ -259,6 +260,7 @@ export default {
         if(this.nbFiles <= 0) {
           this.showAlert = true;
         } else {
+          this.uploadDisabled = true;
           this.$refs.pond.processFiles();
         }
       },
