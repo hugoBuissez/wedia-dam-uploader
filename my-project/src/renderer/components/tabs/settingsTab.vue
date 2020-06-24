@@ -1,15 +1,17 @@
 <template>
-  <div class="right">
-    <header>
-      <h3>Paramètres</h3>
-    </header>
-  </div>
+
+   <div class="right">
+     
+   </div>
+
 </template>
 
-<style scoped>
+<script>
 
-  header {
-    padding-left: 30px;
-  }
+import damList from '../dam/DamList'
 
-</style>
+export default {
+  components: { damList },
+ 
+}
+</script>

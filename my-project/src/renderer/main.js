@@ -1,15 +1,9 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
-import axios from 'axios'
-import App from './App'
-import router from './router'
+import App from './App.vue'
 import store from './store'
+import router from './router'
+
 import WediaVue, { getPropsFromBootNode } from 'wedia-vue';
-
-
-if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
-
-
 Vue.use(WediaVue, {
   store,
   legacy: {
@@ -22,12 +16,7 @@ Vue.use(WediaVue, {
   },
 });
 
-Vue.use(Vuex)
-
-Vue.http = Vue.prototype.$http = axios
-Vue.config.productionTip = false
-
-
+Vue.config.productionTip = false;
 const props = getPropsFromBootNode(document.getElementById('app'));
 
 new Vue({
@@ -38,7 +27,8 @@ new Vue({
       props,
       scopedSlots: {
         default: (params) => {
-            return h(App)
+          if (params.status === 'signed-in') {
+            return h(App)}
           }
       },
     });

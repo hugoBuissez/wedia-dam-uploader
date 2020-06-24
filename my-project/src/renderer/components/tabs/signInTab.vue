@@ -1,57 +1,57 @@
 <template>
   <body>
-      <div class="cont">
-        <div class="left">
-            <div class="leftCont">
-                <img src="../../../../static/logo-light.svg" alt="">
-                <div class="captionDiv">
-                    <span>Bienvenue</span> <br> sur le médiacenter <br> de Club Wed !
-                </div>
-
-                 <b-form>
-                        <b-form-group
-                        id="input-group-1"
-                        >
-
-                        <b-form-input
-                        id="input-1"
-                        type="email"
-                        required
-                        placeholder="votre email"
-                        class="inputForm"
-                        >
-                        </b-form-input>
-
-                        <b-form-input
-                        id="input-1"
-                        type="email"
-                        required
-                        placeholder="votre mot de passe"
-                        class="inputForm"
-                        >
-                        
-                        </b-form-input>
-
-                        <a class="oublie-mdp" href="#">
-                            Mot de passe oubié ?
-                        </a>
-                        <b-form-checkbox
-                            id="checkbox-1"
-                            name="checkbox-1"
-                            class="remember">
-                            
-                            Se souvenir de moi
-                        </b-form-checkbox>
-                        <button class="btnSub">Je me connecte</button>
-                    </b-form-group>
-                 </b-form>
-
-                 
+    <div class="cont">
+    <div class="left">
+        <div class="leftCont">
+            <img src="../../../../static/logo-light.svg" alt="">
+            <div class="captionDiv">
+                <span>Bienvenue</span> <br> sur le médiacenter <br> de Club Wed !
             </div>
+
+            <b-form>
+                <b-form-group
+                id="input-group-1"
+                >
+
+                <b-form-input
+                id="input-1"
+                type="email"
+                required
+                placeholder="votre email"
+                class="inputForm"
+                >
+                </b-form-input>
+
+                <b-form-input
+                id="input-1"
+                type="email"
+                required
+                placeholder="votre mot de passe"
+                class="inputForm"
+                >
+                
+                </b-form-input>
+
+                <a class="oublie-mdp" href="#">
+                    Mot de passe oubié ?
+                </a>
+                <b-form-checkbox
+                    id="checkbox-1"
+                    name="checkbox-1"
+                    class="remember">
+                    
+                    Se souvenir de moi
+                </b-form-checkbox>
+                <button class="btnSub">Je me connecte</button>
+            </b-form-group>
+        </b-form>
+
+                
         </div>
-        <div class="right">
-        </div>
-      </div>
+    </div>
+    <div class="right">
+    </div>
+    </div>
       
   </body>
 </template>

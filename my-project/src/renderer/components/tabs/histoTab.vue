@@ -11,7 +11,7 @@
           v-model="searchAsset"
           type="search"
           required
-          placeholder="Rechercher"
+          placeholder="Rechercher (par nom, status, date, extension, taille...)"
           class="inputForm"
         ></b-form-input>
       </div>
@@ -19,19 +19,22 @@
     <div class="curDl">
         <table>
           <tr>
-          <th>File name</th>
-          <th>Upload date</th>
-          <th>Size</th>
+          <th>Nom</th>
+          <th>Date d'upload</th>
+          <th>Collection</th>
+          <th>Taille</th>
           <th>Status</th>
           </tr>
 
           <tr v-for="file in filteredList" :key="file.id">
             <td>
-              <b-icon icon="file-earmark" class="dlIcons"></b-icon>{{ file.name }}
+              <a href="#" @click="retryProcess" v-bind:id="file.id"><b-icon icon="file-earmark" class="dlIcons"></b-icon>{{ file.name }}</a>
             </td>
             <td>{{ file.date }} {{file.time}}</td>
+            <td>{{ file.collection.toUpperCase() }}</td>
             <td>{{ file.size }} {{ file.unit }}</td>
-            <td class="succ">{{ file.status }}</td>
+            <td v-if="file.status == 'Success'" class="succ">{{ file.status }}</td>
+            <td v-else class="err">{{ file.status }} {{ file.code }}</td>
           </tr>   
         </table>
       </div>
@@ -46,9 +49,22 @@ export default {
         value: 0,
         max: 100,
         searchAsset: '',
-        files: []
+        files: [],
       }
     },  
+
+  methods: {
+
+    retryProcess: function() {
+      let id = event.currentTarget.id
+      this.files.forEach(file => {
+        if(file.id == id) {
+          this.$emit('retry-process', file)
+        }
+      });
+    }
+
+  },
 
   mounted() {
     if (localStorage.histoArray) {
@@ -142,6 +158,9 @@ export default {
     font-weight: 500;
     font-size: 13px;
     }
+    .curDl:first-child {
+      width: 30%;
+    }
 
     .dlIcons {
     width: 20px;
@@ -152,6 +171,20 @@ export default {
 
     .succ {
         color: #00A5C8;
+    }
+
+    .err {
+      color: #ff0033;
+    }
+
+    a {
+      text-decoration: none;
+      color: #fff;
+      transition: 0.1s;
+    }
+
+    a:hover {
+      color: #00A5C8
     }
 
     

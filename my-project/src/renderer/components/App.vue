@@ -58,29 +58,41 @@
                 <span>Paramètres</span>
               </li>
             </a>
+
+            <a href="#" id="troubleTab" :class="{ curTab: troubleTab }" @click="changeTab($event)">
+              <li>
+                <b-icon icon="tools" class="menuIcons"></b-icon>
+                <span>Troubleshooting</span>
+              </li>
+            </a>
           </ul>
         </div>
 
         <!-- CIRCLE PROGRESS BAR -->
 
-        <div class="totalCircleBar" v-if="show">
-          <vue-circle
-            ref="circle_id"
-            :progress="0"
-            :size="200"
-            :reverse="false"
-            :fill="fill"
-            empty-fill="#3C3C3B"
-            :start-angle="0"
-            insert-mode="append"
-            :thickness="5"
-            :show-percent="true"
-            :animation="animation"
-            @vue-circle-progress="progress"
-            @vue-circle-end="progress_end"
-          >
-            <b-button class="but" v-if="completed" @click="goHistoTab">Voir</b-button>
-          </vue-circle>
+        <div class="contCircle">
+          <transition name="bounce"> 
+          <div class="totalCircleBar" v-if="show">
+            <vue-circle
+              ref="circle_id"
+              :progress="0"
+              :size="200"
+              :reverse="false"
+              :fill="fill"
+              empty-fill="#3C3C3B"
+              :start-angle="0"
+              insert-mode="append"
+              :thickness="5"
+              :show-percent="true"
+              :animation="animation"
+              @vue-circle-progress="progress"
+              @vue-circle-end="progress_end"
+            >
+              <b-button class="but" v-if="completed" @click="goHistoTab">Voir</b-button>
+            </vue-circle>
+          </div>
+          </transition>
+       
         </div>
       </div>
 
@@ -90,6 +102,7 @@
       <upload-tab v-if="uploadTab" :filesList="filesList" :percent="pgdata"></upload-tab>
       <histo-tab v-if="histoTab"></histo-tab>
       <settings-tab v-if="settingsTab"></settings-tab>
+      <trouble-tab v-if="troubleTab"></trouble-tab>
       <keep-alive>
         <overview-tab
           v-if="overviewTab"
@@ -110,6 +123,7 @@ import uploadTab from "./tabs/uploadTab";
 import histoTab from "./tabs/histoTab";
 import settingsTab from "./tabs/settingsTab";
 import overviewTab from "./tabs/overviewTab";
+import troubleTab from "./tabs/troubleTab";
 import VueCircle from "vue2-circle-progress";
 
 export default {
@@ -120,7 +134,8 @@ export default {
     histoTab,
     settingsTab,
     overviewTab,
-    VueCircle
+    troubleTab,
+    VueCircle,
   },
 
   data() {
@@ -130,6 +145,7 @@ export default {
       accountTab: false,
       histoTab: false,
       settingsTab: false,
+      troubleTab: false,
       overviewTab: true,
 
       show: false,
@@ -156,7 +172,7 @@ export default {
     },
 
     goHistoTab: function() {
-      this.overviewTab = false
+      this.overviewTab = false;
       this.curTab = "histoTab";
       this.histoTab = true;
 
@@ -181,19 +197,18 @@ export default {
     uploadProgressTotal(value) {
       this.pgdata = value;
       if (this.pgdata == 100) {
-        this.$refs.circle_id.updateFill({ color: "green" });
         this.completed = true;
       }
       this.$refs.circle_id.updateProgress(this.pgdata);
     },
 
     uploadProgressFile(id, progress) {
-      if(!this.show) {
-        this.show = true
+      if (!this.show) {
+        this.show = true;
       }
       this.filesList.forEach(function(file) {
         if (file.id === id) {
-          file.progress = Math.floor(progress * 100);
+          file.progress = Math.round(progress * 100);
         }
       });
     },
@@ -205,7 +220,7 @@ export default {
 
     resetProgressBar() {
       this.$refs.circle_id.updateProgress(0);
-    }
+    },
   }
 };
 </script>
@@ -223,8 +238,22 @@ html {
 
 body {
   min-height: 100%;
+  color: #fff;
   width: 100%;
   font-family: "Montserrat", sans-serif;
+}
+
+.contCircle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.contCircle speed {
+  padding-top: 20px;
 }
 
 .totalCircleBar {
@@ -234,7 +263,7 @@ body {
   align-items: center;
   justify-content: center;
   color: #f1f1f2;
-  margin: 10% auto;
+  margin: 0 auto;
 }
 
 .dragArea {
@@ -249,9 +278,9 @@ body {
 .but {
   height: fit-content;
   width: fit-content;
-  color: #C4C4C4;
-  font-family: 'Montserrat', sans-serif;
-  border: 1px solid #C4C4C4;
+  color: #c4c4c4;
+  font-family: "Montserrat", sans-serif;
+  border: 1px solid #c4c4c4;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0;
@@ -261,8 +290,8 @@ body {
 }
 
 .but:hover {
-  border-color: #00A5C8;
-  color: #00A5C8;
+  border-color: #00a5c8;
+  color: #00a5c8;
   background-color: transparent;
 }
 
@@ -321,6 +350,8 @@ a:hover {
   position: fixed;
   left: 0;
   top: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
@@ -408,20 +439,62 @@ header h3 span {
 }
 
 .filepond--root {
-  height: 300px;
-  max-height: 300px;
+  height: 500px;
+  max-height: 500px;
+  width: 100%;
+  margin: 0;
 }
 
 .filepond--drop-label {
   color: #f1f1f1;
+  padding-top: 30px;
+}
+
+.filepond--list.filepond--list {
+  margin-top: 30px;
 }
 
 .filepond--item {
   width: calc(50% - 0.5em);
 }
 
+.filepond--drip-blob {
+    background-color: #fff;
+}
+
 .filepond--panel-root {
-  background-color: #656563;
+  background-color: transparent;
+  border: 2px dashed #00a5c8;
+  background-image: url("https://image.flaticon.com/icons/svg/975/975665.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 40%;
+}
+
+.filepond--action-process-item {
+  visibility: hidden;
+}
+
+[data-filepond-item-state='processing-complete'] .filepond--item-panel {
+    background-color: #00a5c8;
+}
+
+.bounce-enter-active {
+  animation: bounce-in .5s;
+}
+.bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @media (max-width: 1096px) {

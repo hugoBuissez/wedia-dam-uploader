@@ -4,6 +4,7 @@
             {{ entity.name }}
         </li>
     </ul>
+    
 </template>
 
 <script>
@@ -11,9 +12,9 @@ export default {
   name: 'DamList',
   props: {
     cursor: { 
-        type: Object, 
-        required: true
+      type: Object, 
+      required: true
     }
-  }
+  },
 }
 </script>

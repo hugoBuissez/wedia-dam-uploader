@@ -19,8 +19,9 @@
       <div class="curDl">
         <table>
           <tr>
-          <th>Name</th>
-          <th>Size</th>
+          <th>Nom</th>
+          <th>Fond</th>
+          <th>Taille</th>
           <th>Status</th>
           </tr>
 
@@ -28,6 +29,7 @@
             <td>
               <b-icon icon="file-earmark" class="dlIcons"></b-icon>{{ file.name }}
             </td>
+            <td>{{ file.collection.toUpperCase() }}</td>
             <td>{{ file.size }} {{ file.unit }}</td>
             <td :class="{done: file.progress == 100}">{{ file.progress }} %</td>
           </tr>
@@ -63,7 +65,7 @@
       // Search tool
       filteredList() {
         return this.filesList.filter(file => {
-          return file.name.toLowerCase().includes(this.searchAsset.toLowerCase())
+          return JSON.stringify(file).toLowerCase().includes(this.searchAsset.toLowerCase())
         })
       }
 
@@ -148,6 +150,7 @@
     .curDl td {
     font-weight: 500;
     font-size: 13px;
+
     }
 
     .dlIcons {

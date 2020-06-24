@@ -29,16 +29,18 @@ function createWindow () {
      * Login page: h880 w1440
      * Main page: h740 w1240
      */
-    width: 1240,
-    height: 790,
-    frame: true
+    width: 1440,
+    height: 880,
+    frame: true,
+    webPreferences: {
+      webSecurity: false
+  }
   }),
 
 
   mainWindow.loadURL(winURL)
   mainWindow.setMenu(null)
-  mainWindow.setResizable(true)
-  
+  mainWindow.setResizable(true) 
 }
 
 app.on('ready', createWindow)
