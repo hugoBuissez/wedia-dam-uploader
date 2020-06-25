@@ -31,7 +31,8 @@
             </td>
             <td>{{ file.collection.toUpperCase() }}</td>
             <td>{{ file.size }} {{ file.unit }}</td>
-            <td :class="{done: file.progress == 100}">{{ file.progress }} %</td>
+            <td v-if="file.status == 0" class="error">Error</td>
+            <td v-else :class="{done: file.progress == 100}">{{ file.progress }} %</td>
           </tr>
 
           
@@ -86,6 +87,10 @@
       color: #00A5C8;
     }
 
+    .error {
+      color: red;
+    }
+
     
     .right {
     padding-bottom: 60px;
@@ -95,7 +100,6 @@
     .searchBar {
       width: 100%;
       padding: 0 30px;
-    
     }
 
     .inputForm {

@@ -11,9 +11,13 @@
           v-model="searchAsset"
           type="search"
           required
-          placeholder="Rechercher (par nom, status, date, extension, taille...)"
+          placeholder="Rechercher par nom / extension"
           class="inputForm"
         ></b-form-input>
+      </div>
+
+      <div class="topTools">
+        <b-button class="but normal" @click="clearHistory">Vider</b-button>
       </div>
     
     <div class="curDl">
@@ -62,6 +66,18 @@ export default {
           this.$emit('retry-process', file)
         }
       });
+    },
+
+    clearHistory: function() {
+      if(localStorage.histoArray) {
+        var ids = [];
+        this.files.forEach(file => {
+          ids.push(file.id)
+        });
+        localStorage.histoArray = "";
+        this.files = [];
+        this.$emit('clear-history', ids)
+      }
     }
 
   },
@@ -76,7 +92,7 @@ export default {
       // Search tool
       filteredList() {
         return this.files.filter(file => {
-          return JSON.stringify(file).toLowerCase().includes(this.searchAsset.toLowerCase())
+          return file.name.toLowerCase().includes(this.searchAsset.toLowerCase())
         })
       }
     },
@@ -112,6 +128,31 @@ export default {
       border-color: transparent;
     }
 
+    .but {
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0;
+      line-height: 18px;
+      text-align: center;
+      border-radius: 4px;
+      background-color: #00A5C8;
+      border-color: #00A5C8;
+      text-transform: uppercase;
+    }
+
+    .normal {
+      height: 40px;
+      width: 120px;
+      padding: 3px 7px;
+    }
+
+    .topTools {
+      width: 100%;
+      padding: 10px 30px;
+      margin-top: 20px;
+    }
+
     .right {
     margin-left: 30%;
     width: 100%;
@@ -123,7 +164,7 @@ export default {
 
     .curDl {
     width: 100%;
-    padding: 30px 30px;
+    padding: 0 30px 30px 30px;
     color: #fff;
     }
 

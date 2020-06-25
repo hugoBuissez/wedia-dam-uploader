@@ -42,8 +42,9 @@
 
         <p>Le <strong>code 6</strong> est le plus fréquent.<br>
         Il est souvent causé par un <strong> problème de connexion </strong> soit côté serveur, soit côté client.<br>
-        Vérifiez donc vos paramètres internet et réessayez l'upload.</p>
-    
+        Vérifiez donc vos paramètres internet puis réessayez l'upload. <br> <br>
+        Afin de retenter l'upload, rendez-vous dans l'onglet <strong>Historique des transferts</strong> et cliquez sur le fichier voulu.</p>
+
     </div>
 
   </div>

@@ -29,7 +29,6 @@
         ref="pond"
         :label-idle="labelPond"
         server="http://localhost:8080/fileupload"
-        v-bind:files="myFiles"
         v-bind:allow-multiple="true"
         v-bind:instantUpload="false"
         @addfile="handleFileAdded"
@@ -99,8 +98,14 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css
 // import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginFileEncode from 'filepond-plugin-file-encode'
 
-const FilePond = vueFilePond(FilePondPluginFileValidateSize, );
+const FilePond = vueFilePond(
+  FilePondPluginFileValidateSize,
+  );
+
+  
+
 
 export default {
 
@@ -110,7 +115,6 @@ export default {
 
     data: function() {
         return { 
-          myFiles: [],
           fileToUpload: [],
           histoArray: [],
           nbFiles: 0,
@@ -139,7 +143,8 @@ export default {
     watch: {
       histoArray(newArray) {
         localStorage.setItem("histoArray", JSON.stringify(newArray));;
-      }
+      }, 
+
     },
 
     computed: {
@@ -185,6 +190,7 @@ export default {
 
       handleFileAdded: function(err, file) {
         try {
+          
 
           var unit = 'Ko'
           var size;
@@ -218,10 +224,12 @@ export default {
             size: Math.floor(size),
             unit: unit,
             progress: 0,
-            collection: this.active
+            collection: this.active,
+            status: file.status
           }
 
           this.fileToUpload.unshift(newFile)
+
           this.nbFiles++;
 
           this.$emit('files-list',  this.fileToUpload, this.nbFiles)
@@ -234,7 +242,6 @@ export default {
       handleRemoveFile: function(err, file) {
         try {
 
-          
           this.nbFiles--;
           this.$emit('files-list',  this.fileToUpload, this.nbFiles)
 
@@ -242,14 +249,12 @@ export default {
           let i = 0
 
           for (i; i < this.fileToUpload.length; i++) {
-            console.log(i)
             if(this.fileToUpload[i].id == file.id) {
               collection = this.fileToUpload[i].collection
               break;
             }
           }
 
-          
           switch (collection) {
             case 'assets':
               this.assetsFiles--;
@@ -296,7 +301,7 @@ export default {
             size = file.fileSize / 1000
           }        
           
-          if(file.status == 5) {
+          if(file.status == 5 || file.status == 2) {
             status = "Success"
           } else {
             status = "Error"
@@ -321,14 +326,21 @@ export default {
             collection: collection
           }
 
+
           this.histoArray.unshift(histoFile)
           
           this.ended++;
-          this.$emit('upload-progress-total',  (this.ended / this.nbFiles) * 100)
+
+          if(file.status == 5 || file.status == 2)
+            this.$emit('upload-progress-total',  (this.ended / this.nbFiles) * 100)
+
+          else {
+            this.$emit('update-file-upload', file.id)
+          }
+          
           this.$emit('update-histo-list', this.histoArray)
 
-          if(this.ended == this.nbFiles) {
-            this.$refs.pond.removeFiles();
+          if(this.ended == this.nbFiles) {           
             this.uploadDisabled = false;
             this.ended = 0;
           }
@@ -353,7 +365,8 @@ export default {
           this.$refs.pond.removeFiles();  
           this.uploadDisabled = false;
           this.ended = 0;
-          this.$emit('upload-progress-total',  0)
+         
+          this.$emit('upload-progress-total',  0, 'reset')
         }
 
         this.$bvModal.hide('clearFilesModal')
@@ -368,6 +381,8 @@ export default {
             this.uploadDisabled = true;
             this.$refs.pond.processFiles();
           }
+
+          this.$emit('update-retry-files')
         } catch (err) {
             console.log(err)
           } 
