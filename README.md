@@ -52,7 +52,7 @@ The *webSecurity* proprety has been desactivated to enable wedia-vue API.
 
 ## General operation
 
-The app is updating an **array** of files in all the components. The array is filled in the browser tab depending on what is loaded in the drop zone. This array is transmitted to the other components like the **upload** tab which displays the current uploading so it needs to have the array constantly updated. 
+The app is updating an **array** of files everytime in all the components. The array is filled in the browser tab depending on what is loaded in the drop zone. This array is transmitted to the other components like the **upload** tab which displays the current uploading so it needs to have the array constantly updated. 
 
 The process of transmission is basic. For example, the browser tab filled his array, emit the **event** that the array has been modified, the **App** component listen to this tab, update its array and tansmit the updated array to the **upload** tab by the props:
 
@@ -107,6 +107,8 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html` <-- Path to the distribution mode entry point
 ```
+
+@author: hugoBuissez
 
 
 
