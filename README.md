@@ -44,6 +44,12 @@ components
   └──App.vue <-- Parent component
 ```
 
+The `src/main/` folder contains the file related to electron paths and windows stuff. 
+
+The *webSecurity* proprety has been desactivated to enable wedia-vue api.
+
+
+
 
 
 
