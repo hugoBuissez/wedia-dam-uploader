@@ -1,6 +1,8 @@
 # **wedia-dam-uploader**
 
-wedia-dam-upload is a desktop application for Wedia client which allows mass assets download. It has been developped with Electron and Vuejs.
+wedia-dam-upload is a desktop application for Wedia client which allows mass assets download. It has been developed with Electron and Vuejs.
+
+Fork [eletron-vue-quickstart](https://github.com/SimulatedGREG/electron-vue)
 
 ## Core features
 
@@ -61,6 +63,7 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html` <-- Path to the distribution mode entry point
 ```
+
 
 
 
