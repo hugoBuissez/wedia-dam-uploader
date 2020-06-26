@@ -1,8 +1,18 @@
-# **wedia-electron-uploader wiki**
+# **wedia-dam-uploader**
 
-> Little desktop uploader for Wedia DAM. 
+wedia-dam-upload is a desktop application for Wedia client which allows mass assets download. It has been developped with Electron and Vuejs.
 
-**Write de following command in order to use it**
+## Core features
+
+- **Drag and Drop** tool for an easier browsing 
+- **Async** uploading via [Filepond](https://github.com/pqina/vue-filepond) component
+- General and individual progress of the upload
+- **History** of the uploaded (successfully or not) files with related details
+- Account informations
+
+--- 
+
+Installation: 
 
 `git clone https://github.com/hugoBuissez/wedia-electron-uploader.git`
 
@@ -10,6 +20,39 @@
 
 `npm install`
 
+Usage:
+
 `npm run dev`
+
+---
+
+## Architecture
+
+The application is rendering the **App.vue** file which renders all the others tabs like **Browse**. The App component is located in the **components** folder and renders the different tabs files. 
+
+```
+components
+  ├──singin
+    └──signInTab.vue <-- Entry point if not logged in
+  ├──tabs
+    ├──accountTab.vue
+    ├──browseTab.vue
+    ├──histoTab.vue
+    ├──settingsTab.vue
+    ├──troubleTab.vue
+    └──uploadTab.vue
+  └──App.vue <-- Parent component
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
