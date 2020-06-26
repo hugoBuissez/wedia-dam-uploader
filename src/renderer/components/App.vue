@@ -141,13 +141,13 @@ export default {
 
   data() {
     return {
-      curTab: "troubleTab",
+      curTab: "browseTab",
       uploadTab: false,
       accountTab: false,
       histoTab: false,
       settingsTab: false,
-      troubleTab: true,
-      browseTab: false,
+      troubleTab: false,
+      browseTab: true,
 
       show: false,
       completed: false,
