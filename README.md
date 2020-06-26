@@ -90,6 +90,10 @@ CHILD -->emit event-->PARENT-->props-->OTHER CHILD-|
 
 However, it's a bit different for the **history**. The hisory array is not received by props but stocked in localStorage and emiting no event because does not modify anything (except if a *clear history* feature is implemented).
 
+## Server 
+
+The repository provides a very basic server that can simulate file upload but files are lost at the end of the process. The server IP can be changed via filepond proprety. See [filepond server api](https://pqina.nl/filepond/docs/patterns/api/server/) for further informations about filepond server side.
+
 ## Distribution mode
 
 To invoke distribution mode, within the repository execute the following command:
