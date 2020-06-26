@@ -6,7 +6,7 @@
     
     <div class="cont">
         <p>Vous trouverez ici des informations
-             nécessaires au vue des problèmes que vous pouvez
+             nécessaires sur les problèmes que vous pouvez
               potentiellement rencontrer
         </p>
 
@@ -44,6 +44,9 @@
         Il est souvent causé par un <strong> problème de connexion </strong> soit côté serveur, soit côté client.<br>
         Vérifiez donc vos paramètres internet puis réessayez l'upload. <br> <br>
         Afin de retenter l'upload, rendez-vous dans l'onglet <strong>Historique des transferts</strong> et cliquez sur le fichier voulu.</p>
+        
+
+        </div>
 
     </div>
 
@@ -61,11 +64,14 @@ export default {
 
     .right {
         color: #fff ;
+        padding-bottom: 30px;
     }
 
     h4 {
         margin-bottom: 20px;
     }
+
+  
 
     p {
         font-size: 17px;
@@ -90,7 +96,7 @@ export default {
     }
 
     th, td {
-        border: 1px solid #fff
+        border-bottom: 1px solid #656563;
     }
 
     td:last-child {

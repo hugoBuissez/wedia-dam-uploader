@@ -13,21 +13,28 @@
       @dismissed="showAlert=false"
       class="alert"
     >
-      Vous devez charger au moins 1 fichier.
+      {{ alertLabel }}
     </b-alert>
     </transition>
 
 
     <div class="cont">
 
-    <!-- :server="{ process, load }" -->
+    <!-- DROP ZONE STYLES ARE AVAILABLE IN APP.JS CSS -->
+    <!-- REFER TO FILEPOND DOCUMENTATION TO UNDERSTAND CLASSES-->
     
     <div class="dragDrop">
         <file-pond
         id="file_pond"
         name="test"
         ref="pond"
-        :label-idle="labelPond"
+        :labelIdle="labelPond"
+        labelFileLoadError="Erreur"
+        labelFileProcessing="En cours"
+        labelFileProcessingComplete="Terminé"
+        labelFileProcessingError="Erreur"
+        labelTapToUndo="Voir l'historique pour confirmation"
+        labelTapToRetry="Appuyer pour réessayer"
         server="http://localhost:8080/fileupload"
         v-bind:allow-multiple="true"
         v-bind:instantUpload="false"
@@ -60,7 +67,10 @@
     <span v-if="assets"> {{ assetsFiles }} fichier(s) sur ce fond</span>
     <span v-if="brandcenter">{{ brandcenterFiles }} fichier(s) sur ce fond</span>
     <span v-if="communication">{{ communicationFiles }} fichier(s) sur ce fond</span>
+
     </p>
+
+
 
      <div class="buttons">
 
@@ -110,43 +120,51 @@ const FilePond = vueFilePond(
 export default {
 
     components: {
+
         FilePond
     },
 
     data: function() {
         return { 
-          fileToUpload: [],
-          histoArray: [],
+          fileToUpload: [], // Current files in the drop area
+          histoArray: [], // History files
           nbFiles: 0,
           percent: 0,
           ended: 0,
           showAlert: false,
           uploadDisabled: false,
-
+          alertLabel: '',
+          
+          // Collection tabs
           active: "assets",
           assets: true,
           brandcenter: false,
           communication: false,
 
+          // File number of each
           assetsFiles: 0,
           brandcenterFiles: 0,
           communicationFiles: 0,
         };
     },
 
-     mounted() {
+
+    // Retriving history data at rendering
+    mounted() {
       if (localStorage.histoArray) {
         this.histoArray = JSON.parse(localStorage.getItem("histoArray"));
       }
     },
-
-    watch: {
+    
+    // Watching for new history files
+    // Set when files have been proceed (successfully or not)
+    watch: {  
       histoArray(newArray) {
         localStorage.setItem("histoArray", JSON.stringify(newArray));;
       }, 
-
     },
-
+    
+    // Label for the drop zone
     computed: {
       labelPond() {
         return '<p style="font-family: Montserrat, sans-serif;"> Glissez et déposez vos fichiers ci-dessous OU <br> \
@@ -156,7 +174,8 @@ export default {
     },
 
     methods: {  
-
+      
+      // Function to change collection tab.
       changeTab: function(event) {
         let id = event.currentTarget.id;
         this.$set(this, this.active, false);
@@ -164,34 +183,21 @@ export default {
         this.active = id;
       },
 
-      process: (fieldName, file, metadata, load) => {
-        // simulates uploading a file
-        setTimeout(() => {
-            load(Date.now())
-        }, 400);
-      },
-
-      load: (source, load) => {
-          console.log(source);
-          console.log(load);
-          // simulates loading a file from the server
-          fetch(source)
-          .then(res => { console.log(res); return res.blob();})
-          .then((blob) =>{console.log(blob); return load(blob);});
-      },
-
       // CALLBACKS HANDLERS
       
+      // Error encountered in loading filepond instance
       handleError: function(err, [, file, status]) {
-          console.log(file);
-          console.log(err)
-          file.abortProcessing()
+        console.log(file);
+        console.log("Filepond encountered an error")
       },
 
+      // File have been added but not upload yet
       handleFileAdded: function(err, file) {
         try {
           
+          // CREATION OF THE FILE WHICH IS YET TO BE UPLOAD
 
+          // Converting size in the correct unit
           var unit = 'Ko'
           var size;
           
@@ -206,6 +212,8 @@ export default {
             size = file.fileSize / 1000
           }   
 
+
+          // Updating collection file number
           switch (this.active) {
             case 'assets':
               this.assetsFiles++;
@@ -218,6 +226,7 @@ export default {
               break;
           }
           
+          // New file object 
           var newFile = { 
             id: file.id,
             name: file.filename,
@@ -227,11 +236,13 @@ export default {
             collection: this.active,
             status: file.status
           }
-
+        
+          // Adding it to the file array
           this.fileToUpload.unshift(newFile)
 
-          this.nbFiles++;
+          this.nbFiles++; // total number of files
 
+          // Event for circle progress bar update
           this.$emit('files-list',  this.fileToUpload, this.nbFiles)
 
         } catch (err) {
@@ -239,6 +250,8 @@ export default {
         }  
       },
 
+      // File have been removed from the zone area
+      // Inverse processing as handleAddedFile()
       handleRemoveFile: function(err, file) {
         try {
 
@@ -274,9 +287,13 @@ export default {
         }       
       },
 
+
+      // File has finished processing
       handleProcessFile(err, file) {
         try {    
+
                    
+          // CREATING A NEW FILE OBJECT
           var today = new Date();
           var dd = String(today.getDate()).padStart(2, '0');
           var mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -304,6 +321,8 @@ export default {
           if(file.status == 5 || file.status == 2) {
             status = "Success"
           } else {
+            this.alertLabel = "Certains fichiers ont rencontré des problèmes en cours de chargement."
+            this.showAlert = true;
             status = "Error"
           }
 
@@ -326,11 +345,13 @@ export default {
             collection: collection
           }
 
-
+          // Adding it to the history
           this.histoArray.unshift(histoFile)
           
           this.ended++;
 
+
+          // Updating total progress for circle bar if file have been successfully uplaoded
           if(file.status == 5 || file.status == 2)
             this.$emit('upload-progress-total',  (this.ended / this.nbFiles) * 100)
 
@@ -339,6 +360,7 @@ export default {
           }
           
           this.$emit('update-histo-list', this.histoArray)
+
 
           if(this.ended == this.nbFiles) {           
             this.uploadDisabled = false;
@@ -359,7 +381,9 @@ export default {
       /**
        *  METHODS
        */
+      
 
+      // Clear drop area
       clearFiles: function() {
         if(this.nbFiles > 0) {
           this.$refs.pond.removeFiles();  
@@ -372,17 +396,20 @@ export default {
         this.$bvModal.hide('clearFilesModal')
       },
 
+      // Process all drop area files
       processFiles: function() {
         try {
 
+          this.showAlert = false;
+
           if(this.nbFiles <= 0) {
+            this.alertLabel = 'Vous devez charger au moins 1 fichier.'
             this.showAlert = true;
           } else {
             this.uploadDisabled = true;
             this.$refs.pond.processFiles();
           }
 
-          this.$emit('update-retry-files')
         } catch (err) {
             console.log(err)
           } 
@@ -409,6 +436,10 @@ export default {
   .cont {
     display: flex;
     flex-direction: row;
+    height: 100%;
+  }
+
+  .right {
     height: 100%;
   }
 

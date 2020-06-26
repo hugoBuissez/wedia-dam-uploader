@@ -16,10 +16,6 @@
         ></b-form-input>
       </div>
 
-      <div class="topTools">
-        <b-button class="but normal" @click="clearHistory">Vider</b-button>
-      </div>
-    
     <div class="curDl">
         <table>
           <tr>
@@ -30,9 +26,9 @@
           <th>Status</th>
           </tr>
 
-          <tr v-for="file in filteredList" :key="file.id">
+          <tr v-for="file in filteredListSearch" :key="file.id">
             <td>
-              <a href="#" @click="retryProcess" v-bind:id="file.id"><b-icon icon="file-earmark" class="dlIcons"></b-icon>{{ file.name }}</a>
+             <b-icon icon="file-earmark" class="dlIcons"></b-icon>{{ file.name }}
             </td>
             <td>{{ file.date }} {{file.time}}</td>
             <td>{{ file.collection.toUpperCase() }}</td>
@@ -52,35 +48,10 @@ export default {
       return {
         value: 0,
         max: 100,
-        searchAsset: '',
+        searchAsset: '', 
         files: [],
       }
     },  
-
-  methods: {
-
-    retryProcess: function() {
-      let id = event.currentTarget.id
-      this.files.forEach(file => {
-        if(file.id == id) {
-          this.$emit('retry-process', file)
-        }
-      });
-    },
-
-    clearHistory: function() {
-      if(localStorage.histoArray) {
-        var ids = [];
-        this.files.forEach(file => {
-          ids.push(file.id)
-        });
-        localStorage.histoArray = "";
-        this.files = [];
-        this.$emit('clear-history', ids)
-      }
-    }
-
-  },
 
   mounted() {
     if (localStorage.histoArray) {
@@ -89,12 +60,13 @@ export default {
   },
 
   computed: {
-      // Search tool
-      filteredList() {
+      // Search bar
+      filteredListSearch() {
         return this.files.filter(file => {
           return file.name.toLowerCase().includes(this.searchAsset.toLowerCase())
         })
-      }
+      },
+      
     },
 }
 </script>
@@ -128,31 +100,6 @@ export default {
       border-color: transparent;
     }
 
-    .but {
-      color: #FFFFFF;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0;
-      line-height: 18px;
-      text-align: center;
-      border-radius: 4px;
-      background-color: #00A5C8;
-      border-color: #00A5C8;
-      text-transform: uppercase;
-    }
-
-    .normal {
-      height: 40px;
-      width: 120px;
-      padding: 3px 7px;
-    }
-
-    .topTools {
-      width: 100%;
-      padding: 10px 30px;
-      margin-top: 20px;
-    }
-
     .right {
     margin-left: 30%;
     width: 100%;
@@ -164,7 +111,7 @@ export default {
 
     .curDl {
     width: 100%;
-    padding: 0 30px 30px 30px;
+    padding: 30px 30px 30px 30px;
     color: #fff;
     }
 

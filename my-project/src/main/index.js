@@ -10,6 +10,9 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
+const path = require('path')
+
+
 let mainWindow
 let otherWindow
 
@@ -17,7 +20,7 @@ const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
   : `file://${__dirname}/index.html`
 
-const otherURL = `http://localhost:9080/#/upload`
+const url = require('url')
 
 function createWindow () {
   /**
@@ -39,6 +42,7 @@ function createWindow () {
 
 
   mainWindow.loadURL(winURL)
+
   mainWindow.setMenu(null)
   mainWindow.setResizable(true) 
 }
