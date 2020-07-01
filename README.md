@@ -92,7 +92,9 @@ However, it's a bit different for the **history**. The hisory array is not recei
 
 ## Server 
 
-The repository provides a very basic server that can simulate file upload but files are lost at the end of the process. The server IP can be changed via filepond proprety. See [filepond server api](https://pqina.nl/filepond/docs/patterns/api/server/) for further informations about filepond server side.
+The repository provides a very basic server in NodeJS that can simulate file upload but files are lost at the end of the process. The server IP can be changed via filepond proprety. See [filepond server api](https://pqina.nl/filepond/docs/patterns/api/server/) for further informations about filepond server side.
+
+You can launch the server with the command `node server.js` in the root repository.
 
 ## Distribution mode
 
